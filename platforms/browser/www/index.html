@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Security-Policy"
@@ -14,11 +14,12 @@
 </head>
 <body>
 <div class="app">
-    <h1>Apache Cordova</h1>
-    <div id="deviceready" class="blink">
-        <p class="event listening">Connecting to Device</p>
-        <p class="event received">Device is Ready</p>
+    <h1>Sokhan Dictionary App</h1>
+    <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search...">
+        <button id="search-button">Search</button>
     </div>
+    <ul id="search-results"></ul>
 </div>
 <script src="cordova.js"></script>
 <script src="js/index.js"></script>

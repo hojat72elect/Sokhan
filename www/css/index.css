@@ -22,7 +22,10 @@ body {
 
 /* Portrait layout (default) */
 .app {
-    background: url(../img/logo.png) no-repeat center top; /* 170px x 200px */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     position: absolute; /* position in the center of the screen */
     left: 50%;
     top: 50%;
@@ -32,6 +35,43 @@ body {
     padding: 180px 0px 0px 0px; /* image height is 200px (bottom 20px are overlapped with text) */
     margin: -115px 0px 0px -112px; /* offset vertical: half of image height and text area height */
     /* offset horizontal: half of text area width */
+}
+
+.search-container{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#search-bar {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#search-button {
+    padding: 10px;
+    font-size: 16px;
+}
+
+#search-results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.search-result {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f1f1f1;
+}
+
+.search-result h3 {
+    margin: 0;
+}
+
+.search-result p {
+    margin: 0;
 }
 
 /* Landscape layout (with min-width) */
@@ -69,14 +109,6 @@ h1 {
 .event.received {
     background-color: #4B946A;
     display: none;
-}
-
-#deviceready.ready .event.listening {
-    display: none;
-}
-
-#deviceready.ready .event.received {
-    display: block;
 }
 
 @keyframes fade {
