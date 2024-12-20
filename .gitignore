@@ -1,0 +1,9 @@
+node_modules
+.idea
+.angular
+.browserslistrc
+.editorconfig
+.vscode
+android/gradle/wrapper
+android/gradlew
+android/gradlew.bat
