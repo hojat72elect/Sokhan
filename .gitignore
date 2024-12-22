@@ -7,3 +7,4 @@ node_modules
 android/gradle/wrapper
 android/gradlew
 android/gradlew.bat
+package-lock.json
