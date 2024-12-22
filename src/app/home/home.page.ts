@@ -1,12 +1,30 @@
-import { Component } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import {Component} from '@angular/core';
+import {
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonItem,
+    IonLabel,
+    IonInput,
+    IonButton
+} from '@ionic/angular/standalone';
+import {FormsModule} from "@angular/forms";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent],
+    selector: 'app-home',
+    templateUrl: 'home.page.html',
+    styleUrls: ['home.page.scss'],
+    imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, FormsModule],
 })
 export class HomePage {
-  constructor() {}
+    inputText: string = '';
+
+    constructor() {
+    }
+
+    logInputText() {
+        console.log(this.inputText);
+        this.inputText = '';
+    }
 }
