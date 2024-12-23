@@ -20,6 +20,7 @@ import {RemoteDictionaryDataSource} from "../api/RemoteDictionaryDataSource";
 })
 export class HomePage {
     inputText: string = '';
+    searchResults:string='';
 
     constructor() {
     }
@@ -28,7 +29,7 @@ export class HomePage {
 
         const dataSource = new RemoteDictionaryDataSource();
         dataSource.fetRemoteEntries(this.inputText).then(entries => {
-            console.log(entries[0].meanings[0].definitions[0].definition);
+            this.searchResults = entries[0].meanings[0].definitions[0].definition;
         })
         this.inputText = '';
     }
