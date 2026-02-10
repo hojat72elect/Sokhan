@@ -1,7 +1,7 @@
 {
-  "name": "sokhan",
+  "name": "Sokhan",
   "integrations": {
     "capacitor": {}
   },
-  "type": "angular-standalone"
+  "type": "react-vite"
 }

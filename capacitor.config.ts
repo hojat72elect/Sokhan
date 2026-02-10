@@ -2,8 +2,8 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
-  appName: 'sokhan',
-  webDir: 'www/browser'
+  appName: 'Sokhan',
+  webDir: 'dist'
 };
 
 export default config;
