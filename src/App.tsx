@@ -1,6 +1,6 @@
 import {HashRouter, Redirect, Route} from 'react-router-dom';
 import {IonApp, IonRouterOutlet, setupIonicReact} from '@ionic/react';
-import {Home} from './pages/Home';
+import {Home} from './Home';
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';
