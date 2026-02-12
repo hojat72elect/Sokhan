@@ -17,6 +17,9 @@ import {
 } from '@ionic/react';
 import React, {useState} from "react";
 import axios from "axios";
+import {RemoteDictionaryEntry} from "./data/RemoteDictionaryEntry";
+import {RemoteMeaning} from "./data/RemoteMeaning";
+import {RemoteDefinition} from "./data/RemoteDefinition";
 
 export const Home: React.FC = () => {
 
@@ -24,7 +27,7 @@ export const Home: React.FC = () => {
     const [userInput, setUserInput] = useState<string>("");
 
     // word definition result from server
-    const [wordDefinition, setWordDefinition] = useState<any>(null);
+    const [wordDefinition, setWordDefinition] = useState<RemoteDictionaryEntry | null>(null);
 
     // a flag reflecting whether the page is currently loading, or not
     const [loading, setLoading] = useState<boolean>(false);
@@ -104,12 +107,12 @@ export const Home: React.FC = () => {
 
                         <IonCardContent>
                             <IonList lines="none">
-                                {wordDefinition.meanings.map((meaning: any, index: number) => (
+                                {wordDefinition.meanings.map((meaning: RemoteMeaning, index: number) => (
                                     <div key={index}>
-                                        <h3><strong>{meaning.partOfSpeech}</strong></h3>
+                                        <h1><strong>{meaning.partOfSpeech}</strong></h1>
                                         <ul>
-                                            {meaning.definitions.map((def: any, idx: number) => (
-                                                <li key={idx} style={{marginBottom: '8px'}}>
+                                            {meaning.definitions.map((def: RemoteDefinition, idx: number) => (
+                                                <li key={idx} style={{marginBottom: '8px', fontSize: '18px'}}>
                                                     {def.definition}
                                                 </li>
                                             ))}
