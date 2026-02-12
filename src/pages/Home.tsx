@@ -20,21 +20,26 @@ import axios from "axios";
 
 export const Home: React.FC = () => {
 
-    const [inputWord, setInputWord] = useState<string>(""); // user's input
-    const [definitionData, setDefinitionData] = useState<any>(null); // word definition result from server
+    // What user inputs into the EditText
+    const [userInput, setUserInput] = useState<string>("");
+
+    // word definition result from server
+    const [wordDefinition, setWordDefinition] = useState<any>(null);
+
+    // a flag reflecting whether the page is currently loading, or not
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
 
     const fetchDefinition = async () => {
-        if (!inputWord) return;
+        if (!userInput) return;
 
         setLoading(true);
         setError("");
-        setDefinitionData(null);
+        setWordDefinition(null);
 
         try {
-            const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${inputWord}`);
-            setDefinitionData(response.data[0]);
+            const response = await axios.get(`https://api.dictionaryapi.dev/api/v2/entries/en/${userInput}`);
+            setWordDefinition(response.data[0]);
         } catch (err) {
             setError(`Sorry, we couldn't find a definition for that word : ${err}`);
         } finally {
@@ -58,8 +63,8 @@ export const Home: React.FC = () => {
                         label="Enter a word"
                         labelPlacement="floating"
                         placeholder="e.g. Hello"
-                        value={inputWord}
-                        onIonInput={(e) => setInputWord(e.detail.value!)}
+                        value={userInput}
+                        onIonInput={(e) => setUserInput(e.detail.value!)}
                     ></IonInput>
                 </IonItem>
 
@@ -67,7 +72,7 @@ export const Home: React.FC = () => {
                     expand="block"
                     className="ion-margin-top"
                     onClick={fetchDefinition}
-                    disabled={!inputWord}
+                    disabled={!userInput}
                 >
                     Define
                 </IonButton>
@@ -84,22 +89,22 @@ export const Home: React.FC = () => {
                     </IonText>
                 )}
 
-                {definitionData && (
+                {wordDefinition && (
                     <IonCard className="ion-margin-top">
                         <IonCardHeader>
                             <IonCardTitle style={{textTransform: "capitalize"}}>
-                                {definitionData.word}
+                                {wordDefinition.word}
                             </IonCardTitle>
-                            {definitionData.phonetic && (
+                            {wordDefinition.phonetic && (
                                 <IonText color="medium">
-                                    <p>{definitionData.phonetic}</p>
+                                    <p>{wordDefinition.phonetic}</p>
                                 </IonText>
                             )}
                         </IonCardHeader>
 
                         <IonCardContent>
                             <IonList lines="none">
-                                {definitionData.meanings.map((meaning: any, index: number) => (
+                                {wordDefinition.meanings.map((meaning: any, index: number) => (
                                     <div key={index}>
                                         <h3><strong>{meaning.partOfSpeech}</strong></h3>
                                         <ul>
