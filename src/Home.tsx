@@ -70,7 +70,7 @@ export const Home: React.FC = () => {
      *
      * @param query the text that we are going to use to find the suggestions close to it.
      */
-    const fetchSuggestions = (query: string) => {
+    const fetchSuggestions = async (query: string) => {
         if (!query || query.length < 2) {
             setSuggestions([]);
             setShowSuggestions(false);
@@ -79,16 +79,10 @@ export const Home: React.FC = () => {
 
         setSuggestionsLoading(true);
         try {
-            // todo : this is only temporary and will be replaced by a better approach
-            const commonWords = [
-                'hello', 'world', 'computer', 'programming', 'javascript', 'react', 'typescript',
-                'dictionary', 'language', 'english', 'learning', 'development', 'software', 'application',
-                'interface', 'component', 'function', 'variable', 'constant', 'array', 'object',
-                'string', 'number', 'boolean', 'undefined', 'null', 'document', 'element',
-                'style', 'class', 'method', 'property', 'event', 'listener', 'callback',
-                'promise', 'async', 'await', 'fetch', 'response', 'request', 'server',
-                'client', 'frontend', 'backend', 'database', 'query', 'result', 'error'
-            ];
+            const response = await fetch(`${import.meta.env.BASE_URL}original_entries.txt`);
+            const text = await response.text();
+            const commonWords = text.split(/\r?\n/);
+            console.log(commonWords);
 
             const filtered = commonWords.filter(word =>
                 word.toLowerCase().startsWith(query.toLowerCase())
