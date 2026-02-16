@@ -36,19 +36,7 @@ export const Home: React.FC = () => {
 
     useEffect(() => {
 
-        // Load dictionary entries
-        const loadWords = async () => {
-            try {
-                const response = await fetch(`${import.meta.env.BASE_URL}original_entries.txt`);
-                const text = await response.text();
-                const commonWords = text.split(/\r?\n/);
-                setAllWords(commonWords);
-            } catch (err) {
-                console.error('Error loading dictionary:', err);
-            }
-        };
         loadWords();
-
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as HTMLElement;
             if (!target.closest('.suggestions-dropdown') && !target.closest('ion-input')) {
@@ -62,12 +50,19 @@ export const Home: React.FC = () => {
         };
     }, []);
 
-    // Direct DOM reference to the <IonInput> element
+    const loadWords = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.BASE_URL}original_entries.txt`);
+            const text = await response.text();
+            const commonWords = text.split(/\r?\n/);
+            setAllWords(commonWords);
+        } catch (err) {
+            console.error('Error loading dictionary:', err);
+        }
+    };
+
     const inputRef = useRef<HTMLIonInputElement>(null);
 
-    /**
-     * This function makes an API request and returns the definition of the word
-     */
     const fetchDefinition = async () => {
         if (!userInput) return;
 
@@ -87,11 +82,6 @@ export const Home: React.FC = () => {
 
     };
 
-    /**
-     * only finds the suggestions that are close to the input query.
-     *
-     * @param query the text that we are going to use to find the suggestions close to it.
-     */
     const fetchSuggestions = (query: string) => {
         if (!query || query.length < 2) {
             setSuggestions([]);
@@ -118,9 +108,6 @@ export const Home: React.FC = () => {
         }
     };
 
-    /**
-     * This function will be called each time contents of the input change.
-     */
     const onInputChanged = (event: IonInputCustomEvent<InputInputEventDetail>) => {
         const value = event.detail.value || '';
         setUserInput(value);
