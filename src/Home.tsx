@@ -25,20 +25,42 @@ import {IonInputCustomEvent} from "@ionic/core/dist/types/components";
 
 export const Home: React.FC = () => {
 
-    // What user inputs into the EditText (it will change as user types in)
     const [userInput, setUserInput] = useState<string>("");
-
-    // word definition result from server
     const [wordDefinition, setWordDefinition] = useState<RemoteDictionaryEntry | null>(null);
-
-    // a flag reflecting whether the page is currently loading, or not
     const [loading, setLoading] = useState<boolean>(false);
-
     const [error, setError] = useState<string>('');
-
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
     const [suggestionsLoading, setSuggestionsLoading] = useState<boolean>(false);
+    const [allWords, setAllWords] = useState<string[]>([]);
+
+    useEffect(() => {
+
+        // Load dictionary entries
+        const loadWords = async () => {
+            try {
+                const response = await fetch(`${import.meta.env.BASE_URL}original_entries.txt`);
+                const text = await response.text();
+                const commonWords = text.split(/\r?\n/);
+                setAllWords(commonWords);
+            } catch (err) {
+                console.error('Error loading dictionary:', err);
+            }
+        };
+        loadWords();
+
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+            if (!target.closest('.suggestions-dropdown') && !target.closest('ion-input')) {
+                setShowSuggestions(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     // Direct DOM reference to the <IonInput> element
     const inputRef = useRef<HTMLIonInputElement>(null);
@@ -70,21 +92,20 @@ export const Home: React.FC = () => {
      *
      * @param query the text that we are going to use to find the suggestions close to it.
      */
-    const fetchSuggestions = async (query: string) => {
+    const fetchSuggestions = (query: string) => {
         if (!query || query.length < 2) {
             setSuggestions([]);
             setShowSuggestions(false);
             return;
         }
 
+        if (allWords.length === 0) {
+            return;
+        }
+
         setSuggestionsLoading(true);
         try {
-            const response = await fetch(`${import.meta.env.BASE_URL}original_entries.txt`);
-            const text = await response.text();
-            const commonWords = text.split(/\r?\n/);
-            console.log(commonWords);
-
-            const filtered = commonWords.filter(word =>
+            const filtered = allWords.filter(word =>
                 word.toLowerCase().startsWith(query.toLowerCase())
             ).slice(0, 8);
 
@@ -120,20 +141,6 @@ export const Home: React.FC = () => {
             }
         }, 0);
     };
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            const target = event.target as HTMLElement;
-            if (!target.closest('.suggestions-dropdown') && !target.closest('ion-input')) {
-                setShowSuggestions(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
 
     return (
         <IonPage>
