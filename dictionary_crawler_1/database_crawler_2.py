@@ -5,11 +5,11 @@ from typing import Any
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-db3 = np.load('chunk_03.npy')
+db4 = np.load('chunk_04.npy')
 
-print(f"Shape: {db3.shape}, Type: {db3.dtype}")
+print(f"Shape: {db4.shape}, Type: {db4.dtype}")
 
-resulting_dictionary_part3 = np.array([], dtype=object)
+resulting_dictionary_part4 = np.array([], dtype=object)
 
 # Configure session with retry strategy
 session = requests.Session()
@@ -26,7 +26,7 @@ session.mount("https://", adapter)
 # Rate limiting: 1 request per second (adjust as needed)
 REQUEST_DELAY = 1.0
 
-for i, db_entry in enumerate(db3):
+for i, db_entry in enumerate(db4):
     url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{db_entry}"
 
     try:
@@ -41,8 +41,8 @@ for i, db_entry in enumerate(db3):
 
         # parse the response as a JSON.
         data: list[Any] = response.json()
-        resulting_dictionary_part3 = np.append(resulting_dictionary_part3, data)
-        print(f"The {db_entry} was added to the dictionary. ({i + 1}/{len(db3)})")
+        resulting_dictionary_part4 = np.append(resulting_dictionary_part4, data)
+        print(f"The {db_entry} was added to the dictionary. ({i + 1}/{len(db4)})")
 
     except requests.exceptions.HTTPError as err:
         if response.status_code == 429:
@@ -55,5 +55,5 @@ for i, db_entry in enumerate(db3):
     except Exception as err:
         print(f"An error occurred: {err}")
 
-print(f"Successfully processed {len(resulting_dictionary_part3)}/{len(db3)} entries")
-np.save('resulting_dictionary_part3.npy', resulting_dictionary_part3)
+print(f"Successfully processed {len(resulting_dictionary_part4)}/{len(db4)} entries")
+np.save('resulting_dictionary_part4.npy', resulting_dictionary_part4)
