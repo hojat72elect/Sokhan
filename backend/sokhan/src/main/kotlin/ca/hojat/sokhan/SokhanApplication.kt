@@ -14,7 +14,6 @@ class SokhanApplication {
 
 }
 
-
 fun main(args: Array<String>) {
     runApplication<SokhanApplication>(*args)
 }
